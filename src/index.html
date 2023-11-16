@@ -7,8 +7,37 @@
 
     <script type="module" src="/build/my-app.esm.js"></script>
     <script nomodule src="/build/my-app.js"></script>
+
+    <script>
+      window.customElements.define('custom-icon', class extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: 'open' });
+          this.shadowRoot.innerHTML = '<span></span>';
+        }
+      });
+
+      window.customElements.define('custom-button', class extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: 'open' });
+          this.shadowRoot.innerHTML = `
+            <button>
+              <custom-icon></custom-icon>
+              <slot></slot>
+            </button>
+          `;
+        }
+      });
+    </script>
   </head>
   <body>
-    <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
+    <p>The button below has no contents when inspecting the Accessibility Tree View.</p>
+
+    <stencil-button>Place order (Stencil)</stencil-button>
+
+    <p>The button below does have contents.</p>
+
+    <custom-button>Place order (Custom Element)</custom-button>
   </body>
 </html>
